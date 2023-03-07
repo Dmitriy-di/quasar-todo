@@ -35,36 +35,25 @@
         "
       >
         <q-list padding>
-          <q-item clickable v-ripple>
+          <q-item to="/" exact active clickable v-ripple>
             <q-item-section avatar>
-              <q-icon name="inbox" />
+              <q-icon name="style" />
             </q-item-section>
-
-            <q-item-section> Inbox </q-item-section>
+            <q-item-section> Todo </q-item-section>
           </q-item>
 
-          <q-item active clickable v-ripple>
+          <q-item to="/about" exact clickable v-ripple>
             <q-item-section avatar>
-              <q-icon name="star" />
+              <span class="material-icons"> info </span>
             </q-item-section>
-
-            <q-item-section> Star </q-item-section>
+            <q-item-section> About </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple>
+          <q-item to="/help" exact clickable v-ripple>
             <q-item-section avatar>
-              <q-icon name="send" />
+              <span class="material-icons"> help </span>
             </q-item-section>
-
-            <q-item-section> Send </q-item-section>
-          </q-item>
-
-          <q-item clickable v-ripple>
-            <q-item-section avatar>
-              <q-icon name="drafts" />
-            </q-item-section>
-
-            <q-item-section> Drafts </q-item-section>
+            <q-item-section> Help </q-item-section>
           </q-item>
         </q-list>
       </q-scroll-area>
@@ -160,5 +149,8 @@ export default defineComponent({
 }
 .bg-purple {
   background-color: yellow !important;
+}
+.material-icons {
+  font-size: 30px;
 }
 </style>
