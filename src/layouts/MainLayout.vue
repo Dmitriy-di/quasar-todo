@@ -3,7 +3,14 @@
     <div class="q-pa-md">
       <q-header elevated class="bg-purple">
         <q-toolbar>
-          <q-btn flat round dense icon="menu" class="q-mr-sm" />
+          <q-btn
+            @click="drawer = !drawer"
+            flat
+            round
+            dense
+            icon="menu"
+            class="q-mr-sm"
+          />
           <q-space></q-space>
           <q-btn flat round dense icon="search" class="q-mr-xs" />
           <q-btn flat round dense icon="group_add" />
@@ -15,18 +22,72 @@
           src="../statics/infinity.jpg"
           class="header-image absolute-top"
         ></q-img>
+        <div class="time q-mb-lg q-mt-lg q-px-xl">{{ toToday }}</div>
       </q-header>
     </div>
 
-    <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
-      <!-- drawer content -->
+    <q-drawer v-model="drawer" show-if-above :width="200" :breakpoint="400">
+      <q-scroll-area
+        style="
+          height: calc(100% - 150px);
+          margin-top: 150px;
+          border-right: 1px solid #ddd;
+        "
+      >
+        <q-list padding>
+          <q-item clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon name="inbox" />
+            </q-item-section>
+
+            <q-item-section> Inbox </q-item-section>
+          </q-item>
+
+          <q-item active clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon name="star" />
+            </q-item-section>
+
+            <q-item-section> Star </q-item-section>
+          </q-item>
+
+          <q-item clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon name="send" />
+            </q-item-section>
+
+            <q-item-section> Send </q-item-section>
+          </q-item>
+
+          <q-item clickable v-ripple>
+            <q-item-section avatar>
+              <q-icon name="drafts" />
+            </q-item-section>
+
+            <q-item-section> Drafts </q-item-section>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
+
+      <q-img
+        class="absolute-top"
+        src="https://cdn.quasar.dev/img/material.png"
+        style="height: 150px"
+      >
+        <div class="absolute-bottom bg-transparent">
+          <q-avatar size="56px" class="q-mb-sm">
+            <img src="../statics/avatar.jpg" />
+          </q-avatar>
+          <div class="text-weight-bold">Razvan Stoenescu</div>
+          <div>@rstoenescu</div>
+        </div>
+      </q-img>
     </q-drawer>
 
     <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
     </q-drawer>
 
     <q-page-container>
-      <router-view />
       <Text />
     </q-page-container>
 
@@ -52,6 +113,7 @@
 import EssentialLink from "components/EssentialLink.vue";
 import Text from "../components/Text.vue";
 import { defineComponent, ref } from "vue";
+import { date } from "quasar";
 
 export default defineComponent({
   name: "MainLayout",
@@ -64,9 +126,7 @@ export default defineComponent({
 
     return {
       slide: ref(1),
-      autoplay: ref(false),
       EssentialLink,
-
       Text,
       drawer: ref(false),
       leftDrawerOpen,
@@ -79,6 +139,13 @@ export default defineComponent({
         rightDrawerOpen.value = !rightDrawerOpen.value;
       },
     };
+  },
+  computed: {
+    toToday() {
+      const timeStamp = Date.now();
+      const formattedString = date.formatDate(timeStamp, "DD-MM-YYYY: dddd");
+      return formattedString;
+    },
   },
 });
 </script>
