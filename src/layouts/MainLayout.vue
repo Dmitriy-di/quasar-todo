@@ -26,7 +26,7 @@
       </q-header>
     </div>
 
-    <q-drawer v-model="drawer" show-if-above :width="200" :breakpoint="400">
+    <q-drawer v-model="drawer" show-if-above :width="370" :breakpoint="800">
       <q-scroll-area
         style="
           height: calc(100% - 150px);
@@ -84,11 +84,8 @@
       </q-img>
     </q-drawer>
 
-    <q-drawer show-if-above v-model="rightDrawerOpen" side="right" bordered>
-    </q-drawer>
-
     <q-page-container>
-      <Text />
+      <router-view />
     </q-page-container>
 
     <q-footer elevated class="bg-grey-8 text-white">
