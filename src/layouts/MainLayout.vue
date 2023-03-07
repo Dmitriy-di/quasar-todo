@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHr lpr lFr">
+  <q-layout class="layout" view="lHr lpr lFr">
     <div class="q-pa-md">
       <q-header elevated class="bg-purple">
         <q-toolbar>
@@ -26,7 +26,13 @@
       </q-header>
     </div>
 
-    <q-drawer v-model="drawer" show-if-above :width="370" :breakpoint="800">
+    <q-drawer
+      class="list q-mt-lg"
+      v-model="drawer"
+      show-if-above
+      :width="250"
+      :breakpoint="600"
+    >
       <q-scroll-area
         style="
           height: calc(100% - 150px);
@@ -35,7 +41,7 @@
         "
       >
         <q-list padding>
-          <q-item to="/" exact active clickable v-ripple>
+          <q-item to="/" exact clickable v-ripple>
             <q-item-section avatar>
               <q-icon name="style" />
             </q-item-section>
@@ -55,20 +61,27 @@
             </q-item-section>
             <q-item-section> Help </q-item-section>
           </q-item>
+
+          <q-item to="/contacts" exact clickable v-ripple>
+            <q-item-section avatar>
+              <span class="material-icons"> call </span>
+            </q-item-section>
+            <q-item-section> Contacts </q-item-section>
+          </q-item>
         </q-list>
       </q-scroll-area>
 
       <q-img
         class="absolute-top"
-        src="https://cdn.quasar.dev/img/material.png"
+        src="../statics/infinity.jpg"
         style="height: 150px"
       >
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
             <img src="../statics/avatar.jpg" />
           </q-avatar>
-          <div class="text-weight-bold">Razvan Stoenescu</div>
-          <div>@rstoenescu</div>
+          <div class="text-weight-bold">Eugene</div>
+          <div>Eugene@mail.ru</div>
         </div>
       </q-img>
     </q-drawer>
@@ -149,5 +162,15 @@ export default defineComponent({
 }
 .material-icons {
   font-size: 30px;
+  color: black;
+}
+.layout {
+  background-color: $primary;
+}
+.list {
+  background-color: $primary;
+}
+.absolute-top {
+  height: 169px !important;
 }
 </style>
