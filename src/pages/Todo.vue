@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="flex flex-center q-pa-lg">
     <h5>Todo</h5>
     <p>
       Lorem, ipsum dolor sit amet consectetur adipisicing elit. Alias ea non

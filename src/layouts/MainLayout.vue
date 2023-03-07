@@ -74,7 +74,11 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
     </q-page-container>
 
     <q-footer elevated class="bg-grey-8 text-white">
@@ -87,16 +91,10 @@
         </q-toolbar-title>
       </q-toolbar>
     </q-footer>
-    <EssentialLink
-      v-for="link in essentialLinks"
-      :key="link.title"
-      v-bind="link"
-    />
   </q-layout>
 </template>
 
 <script>
-import EssentialLink from "components/EssentialLink.vue";
 import Text from "../components/Text.vue";
 import { defineComponent, ref } from "vue";
 import { date } from "quasar";
@@ -112,7 +110,6 @@ export default defineComponent({
 
     return {
       slide: ref(1),
-      EssentialLink,
       Text,
       drawer: ref(false),
       leftDrawerOpen,

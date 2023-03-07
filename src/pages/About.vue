@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page class="q-pa-lg">
     <h5>About US</h5>
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores,
