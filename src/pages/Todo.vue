@@ -13,7 +13,7 @@
           <q-option-group
             :options="options"
             type="checkbox"
-            v-model="task.done"
+            v-model="task.done[0]"
           />
         </div>
         <q-item-section class="item-title">
@@ -65,7 +65,7 @@ export default defineComponent({
 
     return {
       tasks,
-      options: [{ label: "", value: "friend", color: "primary" }],
+      options: [{ label: "", value: "", color: "primary" }],
       deleteTask,
     };
   },
