@@ -1,7 +1,7 @@
 <template>
-  <q-layout class="layout" view="lHr lpr lFr">
-    <div class="q-pa-md">
-      <q-header elevated class="bg-purple">
+  <q-layout class="q-layout" view="lHr lpr lFr">
+    <div class="q-pa-md header">
+      <q-header elevated class="">
         <q-toolbar>
           <q-btn
             @click="drawer = !drawer"
@@ -18,16 +18,13 @@
         <q-toolbar inset>
           <q-toolbar-title> <strong>Quasar</strong> Framework </q-toolbar-title>
         </q-toolbar>
-        <q-img
-          src="../statics/infinity.jpg"
-          class="header-image absolute-top"
-        ></q-img>
+        <q-img class="header-image absolute-top"></q-img>
         <div class="time q-mb-lg q-mt-lg q-px-xl">{{ toToday }}</div>
       </q-header>
     </div>
 
     <q-drawer
-      class="list q-mt-lg"
+      class="list q-pt-lg"
       v-model="drawer"
       show-if-above
       :width="250"
@@ -39,6 +36,7 @@
           margin-top: 150px;
           border-right: 1px solid #ddd;
         "
+        class="scroll-area"
       >
         <q-list padding>
           <q-item to="/" exact clickable v-ripple>
@@ -71,11 +69,7 @@
         </q-list>
       </q-scroll-area>
 
-      <q-img
-        class="absolute-top"
-        src="../statics/infinity.jpg"
-        style="height: 150px"
-      >
+      <q-img class="absolute-top" style="height: 150px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
             <img src="../statics/avatar.jpg" />
@@ -86,7 +80,10 @@
       </q-img>
     </q-drawer>
 
-    <q-page-container>
+    <q-page-container class="layout">
+      <div class="layout__img">
+        <q-img src="../statics/bg_todo.jpg" />
+      </div>
       <router-view v-slot="{ Component }">
         <keep-alive>
           <component :is="Component" />
@@ -94,7 +91,7 @@
       </router-view>
     </q-page-container>
 
-    <q-footer elevated class="bg-grey-8 text-white">
+    <!-- <q-footer elevated class="bg-grey-8 text-white">
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
@@ -103,14 +100,15 @@
           <div>Title</div>
         </q-toolbar-title>
       </q-toolbar>
-    </q-footer>
+    </q-footer> -->
   </q-layout>
 </template>
 
 <script>
 import Text from "../components/Text.vue";
-import { defineComponent, ref } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import { date } from "quasar";
+import { gsap } from "gsap";
 
 export default defineComponent({
   name: "MainLayout",
@@ -120,7 +118,12 @@ export default defineComponent({
   setup() {
     const leftDrawerOpen = ref(false);
     const rightDrawerOpen = ref(false);
-
+    // onMounted(() => {
+    //   gsap.to(el.current, {
+    //     // полный поворот
+    //     rotation: "+=360",
+    //   });
+    // });
     return {
       slide: ref(1),
       Text,
@@ -157,20 +160,51 @@ export default defineComponent({
   width: 100%;
   z-index: -1;
 }
-.bg-purple {
-  background-color: yellow !important;
-}
+
 .material-icons {
   font-size: 30px;
   color: black;
 }
 .layout {
   background-color: $primary;
+  position: relative;
+  &__img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
 .list {
   background-color: $primary;
 }
 .absolute-top {
   height: 169px !important;
+  background-color: $primary;
+}
+.header {
+  background-color: $primary;
+}
+.scroll-area {
+  background-color: $primary;
+}
+.q-img {
+  width: 100%;
+  height: 100%;
+}
+.q-layout {
+  color: white;
+  font-size: 18px;
+}
+.q-router-link--exact-active {
+  color: red;
+}
+.q-drawer {
+  background-color: $primary !important;
 }
 </style>
