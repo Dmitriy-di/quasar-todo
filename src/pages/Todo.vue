@@ -19,15 +19,17 @@
         <q-item-section class="item-title">
           {{ task.title }}
         </q-item-section>
-        <q-item-section class="items-end" v-if="task.done[0]">
-          <q-btn
-            @click.stop="deleteTask(task, index)"
-            size="15px"
-            round
-            color="teal"
-            icon="delete"
-          />
-        </q-item-section>
+        <transition>
+          <q-item-section class="items-end" v-if="task.done[0]">
+            <q-btn
+              @click.stop="deleteTask(task, index)"
+              size="15px"
+              round
+              color="teal"
+              icon="delete"
+            />
+          </q-item-section>
+        </transition>
       </q-item>
     </q-list>
   </q-page>
@@ -78,5 +80,16 @@ export default defineComponent({
     text-decoration: line-through;
     color: green;
   }
+}
+//======TRANSITION=======
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+  transition-duration: 1000;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>

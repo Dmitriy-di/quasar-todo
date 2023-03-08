@@ -85,9 +85,11 @@
         <q-img src="../statics/bg_todo.jpg" />
       </div>
       <router-view v-slot="{ Component }">
-        <keep-alive>
-          <component :is="Component" />
-        </keep-alive>
+        <transition>
+          <keep-alive>
+            <component :is="Component" />
+          </keep-alive>
+        </transition>
       </router-view>
     </q-page-container>
 
@@ -168,6 +170,7 @@ export default defineComponent({
 .layout {
   background-color: $primary;
   position: relative;
+  height: 100vh;
   &__img {
     position: absolute;
     top: 0;
@@ -206,5 +209,16 @@ export default defineComponent({
 }
 .q-drawer {
   background-color: $primary !important;
+}
+//======TRANSITION=======
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+  transition-duration: 1000;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>
