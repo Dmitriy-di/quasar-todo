@@ -19,7 +19,7 @@
         <q-item-section class="item-title">
           {{ task.title }}
         </q-item-section>
-        <transition>
+        <transition name="slide-fade">
           <q-item-section class="items-end" v-if="task.done[0]">
             <q-btn
               @click.stop="deleteTask(task, index)"
@@ -82,14 +82,17 @@ export default defineComponent({
   }
 }
 //======TRANSITION=======
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-  transition-duration: 1000;
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
 }
 
-.v-enter-from,
-.v-leave-to {
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
   opacity: 0;
 }
 </style>

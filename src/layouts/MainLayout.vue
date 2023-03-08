@@ -85,7 +85,7 @@
         <q-img src="../statics/bg_todo.jpg" />
       </div>
       <router-view v-slot="{ Component }">
-        <transition>
+        <transition name="bounce">
           <keep-alive>
             <component :is="Component" />
           </keep-alive>
@@ -211,14 +211,21 @@ export default defineComponent({
   background-color: $primary !important;
 }
 //======TRANSITION=======
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
-  transition-duration: 1000;
+.bounce-enter-active {
+  animation: bounce-in 0.5s;
 }
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
+.bounce-leave-active {
+  animation: bounce-in 0.5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>
