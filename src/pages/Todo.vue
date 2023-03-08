@@ -1,25 +1,38 @@
 <template>
-  <q-page class="flex flex-center q-pa-lg">
-    <h5>Todo</h5>
-    <p>
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Alias ea non
-      animi doloremque. Molestiae voluptates corporis quis! Mollitia vero
-      reprehenderit ipsum cupiditate ex dolorum itaque, iusto ea dolores
-      expedita assumenda.
-    </p>
-    <p>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-      perspiciatis molestias voluptate mollitia amet, assumenda at neque debitis
-      voluptatum est, et sunt tempora nulla vero odit dignissimos cupiditate
-      recusandae? Laudantium.
-    </p>
+  <q-page class="flex-column q-pa-lg">
+    <q-item v-for="task in tasks" :key="task.title">
+      <div class="q-pa-md">
+        <q-option-group :options="options" type="checkbox" v-model="group" />
+      </div>
+    </q-item>
   </q-page>
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "Todo",
+  setup() {
+    const tasks = [
+      {
+        title: "hello",
+        done: false,
+      },
+      {
+        title: "hello2",
+        done: false,
+      },
+      {
+        title: "hello3",
+        done: false,
+      },
+    ];
+    return {
+      tasks,
+      group: ref([]),
+      options: [{ label: "Friend request", value: "friend", color: "primary" }],
+    };
+  },
 });
 </script>
