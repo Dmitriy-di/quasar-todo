@@ -2,11 +2,11 @@
   <q-page class="q-pa-lg">
     <q-list separator bordered>
       <q-item
-        @click="task.done = !task.done"
+        @click="task.done[0] = !task.done[0]"
         v-for="(task, index) in tasks"
         :key="task.title"
         clickable
-        :class="{ 'done bg-green-2': task.done }"
+        :class="{ 'done bg-green-2': task.done[0] }"
         class="flex justify-between"
       >
         <div class="q-pa-md">
@@ -19,9 +19,9 @@
         <q-item-section class="item-title">
           {{ task.title }}
         </q-item-section>
-        <q-item-section class="items-end" v-if="task.done">
+        <q-item-section class="items-end" v-if="task.done[0]">
           <q-btn
-            @click.stop="deleteTask(index)"
+            @click.stop="deleteTask(task, index)"
             size="15px"
             round
             color="teal"
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref } from "vue";
+import { onMounted, defineComponent, reactive, ref } from "vue";
 
 export default defineComponent({
   name: "Todo",
@@ -53,12 +53,18 @@ export default defineComponent({
         done: [false],
       },
     ]);
-    const deleteTask = (index) => {
+    const deleteTask = (task, index) => {
       tasks.splice(index, 1);
+      console.log(task.done);
     };
+    onMounted(() => {
+      console.log(tasks);
+      console.log(tasks[0]);
+      console.log(tasks[0].done[0]);
+    });
+
     return {
       tasks,
-      group: ref([]),
       options: [{ label: "", value: "friend", color: "primary" }],
       deleteTask,
     };
