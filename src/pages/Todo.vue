@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-lg">
     <q-list separator bordered>
-      <transition-group name="fade" tag="div">
+      <transition-group name="list" tag="div">
         <q-item
           @click="task.done[0] = !task.done[0]"
           v-for="(task, index) in tasks"
@@ -98,17 +98,21 @@ export default defineComponent({
   opacity: 0;
 }
 //======TRANSITION fade=======
-.fade-enter-active {
-  transition: all 0.3s ease-out;
+.list-move, /* apply transition to moving elements */
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
 }
 
-.fade-leave-active {
-  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  transform: translateX(20px);
+.list-enter-from,
+.list-leave-to {
   opacity: 0;
+  transform: translateX(30px);
+}
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+.list-leave-active {
+  position: absolute;
 }
 </style>
