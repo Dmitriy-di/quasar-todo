@@ -3,7 +3,7 @@
     <q-list separator bordered>
       <q-item
         @click="task.done = !task.done"
-        v-for="task in tasks"
+        v-for="(task, index) in tasks"
         :key="task.title"
         clickable
         :class="{ 'done bg-green-2': task.done }"
@@ -20,7 +20,13 @@
           {{ task.title }}
         </q-item-section>
         <q-item-section class="items-end" v-if="task.done">
-          <q-btn size="15px" round color="teal" icon="delete" />
+          <q-btn
+            @click.stop="deleteTask(index)"
+            size="15px"
+            round
+            color="teal"
+            icon="delete"
+          />
         </q-item-section>
       </q-item>
     </q-list>
@@ -47,10 +53,14 @@ export default defineComponent({
         done: [false],
       },
     ]);
+    const deleteTask = (index) => {
+      tasks.splice(index, 1);
+    };
     return {
       tasks,
       group: ref([]),
       options: [{ label: "", value: "friend", color: "primary" }],
+      deleteTask,
     };
   },
 });
