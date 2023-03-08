@@ -5,6 +5,9 @@
         @click="task.done = !task.done"
         v-for="task in tasks"
         :key="task.title"
+        clickable
+        :class="{ 'done bg-green-2': task.done }"
+        class="flex justify-between"
       >
         <div class="q-pa-md">
           <q-option-group
@@ -13,8 +16,11 @@
             v-model="task.done"
           />
         </div>
-        <q-item-section>
+        <q-item-section class="item-title">
           {{ task.title }}
+        </q-item-section>
+        <q-item-section class="items-end" v-if="task.done">
+          <q-btn size="15px" round color="teal" icon="delete" />
         </q-item-section>
       </q-item>
     </q-list>
@@ -44,8 +50,17 @@ export default defineComponent({
     return {
       tasks,
       group: ref([]),
-      options: [{ label: "Friend request", value: "friend", color: "primary" }],
+      options: [{ label: "", value: "friend", color: "primary" }],
     };
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.done {
+  .item-title {
+    text-decoration: line-through;
+    color: green;
+  }
+}
+</style>
