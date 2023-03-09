@@ -1,5 +1,25 @@
 <template>
   <q-page class="q-pa-lg">
+    <div square class="row q-pa-lg add-task">
+      <q-input
+        class="col"
+        bg-color="white"
+        placeholder="Add new task"
+        outlined
+        v-model="titleTodo"
+      >
+        <template v-slot:prepend>
+          <q-icon name="event" />
+        </template>
+      </q-input>
+      <q-btn
+        @click="addTodo"
+        color="green"
+        icon="send"
+        label="On Left and Right"
+      />
+    </div>
+
     <q-list separator bordered>
       <transition-group name="list" tag="div">
         <q-item
@@ -38,12 +58,13 @@
 </template>
 
 <script>
-import { onMounted, defineComponent, reactive, ref } from "vue";
+import { defineComponent, reactive, ref } from "vue";
 import { useQuasar } from "quasar";
 export default defineComponent({
   name: "Todo",
   setup() {
     const $q = useQuasar();
+    const titleTodo = ref("");
     const tasks = reactive([
       {
         title: "hello",
@@ -67,6 +88,22 @@ export default defineComponent({
       classes: "glossy",
     });
 
+    const addTodo = () => {
+      if (titleTodo.value) {
+        tasks.unshift({
+          title: titleTodo.value,
+          done: [false],
+        });
+      } else {
+        $q.notify({
+          type: "negative",
+          message: "Input is empty",
+        });
+      }
+
+      titleTodo.value = "";
+    };
+
     const deleteTask = (index) => {
       $q.dialog({
         title: "Confirm",
@@ -83,9 +120,11 @@ export default defineComponent({
     };
 
     return {
+      addTodo,
       tasks,
       options: [{ label: "", value: "", color: "primary" }],
       deleteTask,
+      titleTodo,
     };
   },
 });
@@ -136,4 +175,7 @@ export default defineComponent({
   position: absolute;
 }
 //========================================
+.add-task {
+  background-color: $primary;
+}
 </style>
