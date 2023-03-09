@@ -102,18 +102,16 @@ export default defineComponent({
 
     const addTodo = () => {
       if (titleTodo.value) {
-        tasks.values.unshift({
+        addDoc(collection(db, "todos"), {
           title: titleTodo.value,
           done: [false],
         });
-        console.log(tasks.values);
       } else {
         $q.notify({
           type: "negative",
           message: "Input is empty",
         });
       }
-
       titleTodo.value = "";
     };
 
