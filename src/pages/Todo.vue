@@ -39,10 +39,11 @@
 
 <script>
 import { onMounted, defineComponent, reactive, ref } from "vue";
-
+import { useQuasar } from "quasar";
 export default defineComponent({
   name: "Todo",
   setup() {
+    const $q = useQuasar();
     const tasks = reactive([
       {
         title: "hello",
@@ -57,15 +58,29 @@ export default defineComponent({
         done: [false],
       },
     ]);
-    const deleteTask = (task, index) => {
-      tasks.splice(index, 1);
-      console.log(task.done);
-    };
-    onMounted(() => {
-      console.log(tasks);
-      console.log(tasks[0]);
-      console.log(tasks[0].done[0]);
+
+    $q.notify.registerType("my-notif", {
+      icon: "announcement",
+      progress: true,
+      color: "brown",
+      textColor: "white",
+      classes: "glossy",
     });
+
+    const deleteTask = (index) => {
+      $q.dialog({
+        title: "Confirm",
+        message: "Do you really want to delete??",
+        cancel: true,
+        persistent: true,
+      }).onOk(() => {
+        tasks.splice(index, 1);
+        $q.notify({
+          type: "my-notif",
+          message: "Task delete",
+        });
+      });
+    };
 
     return {
       tasks,
@@ -82,6 +97,11 @@ export default defineComponent({
     text-decoration: line-through;
     color: green;
   }
+}
+.box {
+  height: 60px;
+  width: 60px;
+  background: red;
 }
 //======TRANSITION slide-fade=======
 .slide-fade-enter-active {
@@ -115,4 +135,5 @@ export default defineComponent({
 .list-leave-active {
   position: absolute;
 }
+//========================================
 </style>
