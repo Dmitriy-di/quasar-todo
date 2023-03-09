@@ -2,6 +2,7 @@
   <q-page class="q-pa-lg">
     <div square class="row q-pa-lg add-task">
       <q-input
+        @keyup.enter="addTodo"
         class="col"
         bg-color="white"
         placeholder="Add new task"
@@ -12,19 +13,13 @@
           <q-icon name="event" />
         </template>
       </q-input>
-      <q-btn
-        @click="addTodo"
-        color="green"
-        icon="send"
-        label="On Left and Right"
-      />
+      <q-btn @click="addTodo" color="green" icon="send" label="Add" />
     </div>
-
     <q-list separator bordered>
       <transition-group name="list" tag="div">
         <q-item
           @click="task.done[0] = !task.done[0]"
-          v-for="(task, index) in tasks"
+          v-for="(task, index) in tasks.values"
           :key="task.title"
           clickable
           :class="{ 'done bg-green-2': task.done[0] }"
@@ -58,27 +53,38 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref } from "vue";
+import { defineComponent, reactive, ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
+import { collection, onSnapshot, deleteDoc } from "firebase/firestore";
+import { db } from "../firebase";
+
 export default defineComponent({
   name: "Todo",
   setup() {
     const $q = useQuasar();
     const titleTodo = ref("");
-    const tasks = reactive([
-      {
-        title: "hello",
-        done: [false],
-      },
-      {
-        title: "hello2",
-        done: [false],
-      },
-      {
-        title: "hello3",
-        done: [false],
-      },
-    ]);
+    const tasks = reactive([]);
+
+    const fetching = async () => {
+      const productCollectionRef = collection(db, "todos");
+      try {
+        await onSnapshot(productCollectionRef, (querySnapshot) => {
+          let fbTodos = [];
+          querySnapshot.forEach((doc) => {
+            const todo = {
+              id: doc.id,
+              title: doc.data().title,
+              done: doc.data().done,
+            };
+            fbTodos.push(todo);
+          });
+          tasks.values = fbTodos;
+        });
+      } catch (e) {
+        console.log("Ошибка: ", e);
+      }
+    };
+    fetching();
 
     $q.notify.registerType("my-notif", {
       icon: "announcement",
@@ -90,10 +96,11 @@ export default defineComponent({
 
     const addTodo = () => {
       if (titleTodo.value) {
-        tasks.unshift({
+        tasks.values.unshift({
           title: titleTodo.value,
           done: [false],
         });
+        console.log(tasks.values);
       } else {
         $q.notify({
           type: "negative",
@@ -109,9 +116,8 @@ export default defineComponent({
         title: "Confirm",
         message: "Do you really want to delete??",
         cancel: true,
-        persistent: true,
       }).onOk(() => {
-        tasks.splice(index, 1);
+        tasks.values.splice(index, 1);
         $q.notify({
           type: "my-notif",
           message: "Task delete",

@@ -92,25 +92,13 @@
         </transition>
       </router-view>
     </q-page-container>
-
-    <!-- <q-footer elevated class="bg-grey-8 text-white">
-      <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
-          </q-avatar>
-          <div>Title</div>
-        </q-toolbar-title>
-      </q-toolbar>
-    </q-footer> -->
   </q-layout>
 </template>
 
 <script>
 import Text from "../components/Text.vue";
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, ref } from "vue";
 import { date } from "quasar";
-import { gsap } from "gsap";
 
 export default defineComponent({
   name: "MainLayout",
@@ -120,12 +108,6 @@ export default defineComponent({
   setup() {
     const leftDrawerOpen = ref(false);
     const rightDrawerOpen = ref(false);
-    // onMounted(() => {
-    //   gsap.to(el.current, {
-    //     // полный поворот
-    //     rotation: "+=360",
-    //   });
-    // });
     return {
       slide: ref(1),
       Text,
