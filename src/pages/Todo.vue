@@ -38,7 +38,7 @@
           <transition name="slide-fade">
             <q-item-section class="items-end" v-if="task.done[0]">
               <q-btn
-                @click.stop="deleteTask(task, index)"
+                @click.stop="deleteTask(task.id)"
                 size="15px"
                 round
                 color="teal"
@@ -55,7 +55,13 @@
 <script>
 import { defineComponent, reactive, ref, onMounted } from "vue";
 import { useQuasar } from "quasar";
-import { collection, onSnapshot, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  deleteDoc,
+  doc,
+  addDoc,
+} from "firebase/firestore";
 import { db } from "../firebase";
 
 export default defineComponent({
@@ -111,13 +117,13 @@ export default defineComponent({
       titleTodo.value = "";
     };
 
-    const deleteTask = (index) => {
+    const deleteTask = (id) => {
       $q.dialog({
         title: "Confirm",
         message: "Do you really want to delete??",
         cancel: true,
       }).onOk(() => {
-        tasks.values.splice(index, 1);
+        deleteDoc(doc(collection(db, "todos"), id));
         $q.notify({
           type: "my-notif",
           message: "Task delete",
