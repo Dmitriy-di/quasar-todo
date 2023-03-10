@@ -49,6 +49,15 @@
           </transition>
         </q-item>
       </transition-group>
+
+      <q-ajax-bar
+        ref="bar"
+        position="bottom"
+        color="green"
+        size="10px"
+        skip-hijack
+      />
+
       <div v-if="!tasks.values.length" class="absolute-center">
         <q-icon name="done" size="150px" color="red" />
         <div class="text-h3">No tasks</div>
@@ -58,7 +67,7 @@
 </template>
 
 <script>
-import { defineComponent, reactive, ref, onMounted } from "vue";
+import { defineComponent, reactive, ref } from "vue";
 import { useQuasar } from "quasar";
 import {
   collection,
@@ -75,6 +84,7 @@ export default defineComponent({
     const $q = useQuasar();
     const titleTodo = ref("");
     const tasks = reactive([]);
+    const bar = ref(null);
 
     const fetching = async () => {
       const productCollectionRef = collection(db, "todos");
@@ -106,18 +116,23 @@ export default defineComponent({
     });
 
     const addTodo = () => {
-      if (titleTodo.value) {
-        addDoc(collection(db, "todos"), {
-          title: titleTodo.value,
-          done: [false],
-        });
-      } else {
-        $q.notify({
-          type: "negative",
-          message: "Input is empty",
-        });
-      }
-      titleTodo.value = "";
+      console.log(bar.value);
+      bar.value.start();
+      setTimeout(() => {
+        if (titleTodo.value) {
+          addDoc(collection(db, "todos"), {
+            title: titleTodo.value,
+            done: [false],
+          });
+        } else {
+          $q.notify({
+            type: "negative",
+            message: "Input is empty",
+          });
+        }
+        titleTodo.value = "";
+        bar.value.stop();
+      }, 1000);
     };
 
     const deleteTask = (id) => {
@@ -135,6 +150,7 @@ export default defineComponent({
     };
 
     return {
+      bar,
       addTodo,
       tasks,
       options: [{ label: "", value: "", color: "primary" }],
