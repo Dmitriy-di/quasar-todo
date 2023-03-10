@@ -17,37 +17,20 @@
     </div>
     <q-list separator bordered>
       <transition-group name="list" tag="div">
-        <q-item
+        <TodoItem
           @click="task.done[0] = !task.done[0]"
           v-for="(task, index) in tasks.values"
+          :task="task"
           :key="task.title"
           clickable
           :class="{ 'done bg-green-2': task.done[0] }"
           class="flex justify-between"
           v-ripple
-        >
-          <div class="q-pa-md">
-            <q-option-group
-              :options="options"
-              type="checkbox"
-              v-model="task.done[0]"
-            />
-          </div>
-          <q-item-section class="item-title">
-            {{ task.title }}
-          </q-item-section>
-          <transition name="slide-fade">
-            <q-item-section class="items-end" v-if="task.done[0]">
-              <q-btn
-                @click.stop="deleteTask(task.id)"
-                size="15px"
-                round
-                color="teal"
-                icon="delete"
-              />
-            </q-item-section>
-          </transition>
-        </q-item>
+        />
+        <div v-if="!tasks.values.length" class="absolute-center">
+          <q-icon name="done" size="150px" color="red" />
+          <div class="text-h3">No tasks</div>
+        </div>
       </transition-group>
 
       <q-ajax-bar
@@ -77,9 +60,13 @@ import {
   addDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
+import TodoItem from "./Todo-item.vue";
 
 export default defineComponent({
   name: "Todo",
+  components: {
+    TodoItem,
+  },
   setup() {
     const $q = useQuasar();
     const titleTodo = ref("");
@@ -116,7 +103,6 @@ export default defineComponent({
     });
 
     const addTodo = () => {
-      console.log(bar.value);
       bar.value.start();
       setTimeout(() => {
         if (titleTodo.value) {
@@ -135,26 +121,26 @@ export default defineComponent({
       }, 1000);
     };
 
-    const deleteTask = (id) => {
-      $q.dialog({
-        title: "Confirm",
-        message: "Do you really want to delete??",
-        cancel: true,
-      }).onOk(() => {
-        deleteDoc(doc(collection(db, "todos"), id));
-        $q.notify({
-          type: "my-notif",
-          message: "Task delete",
-        });
-      });
-    };
+    // const deleteTask = (id) => {
+    //   $q.dialog({
+    //     title: "Confirm",
+    //     message: "Do you really want to delete??",
+    //     cancel: true,
+    //   }).onOk(() => {
+    //     deleteDoc(doc(collection(db, "todos"), id));
+    //     $q.notify({
+    //       type: "my-notif",
+    //       message: "Task delete",
+    //     });
+    //   });
+    // };
 
     return {
       bar,
       addTodo,
       tasks,
-      options: [{ label: "", value: "", color: "primary" }],
-      deleteTask,
+      // options: [{ label: "", value: "", color: "primary" }],
+      // deleteTask,
       titleTodo,
     };
   },
