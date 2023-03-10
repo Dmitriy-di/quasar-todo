@@ -24,6 +24,7 @@
           clickable
           :class="{ 'done bg-green-2': task.done[0] }"
           class="flex justify-between"
+          v-ripple
         >
           <div class="q-pa-md">
             <q-option-group
@@ -48,6 +49,10 @@
           </transition>
         </q-item>
       </transition-group>
+      <div v-if="!tasks.values.length" class="absolute-center">
+        <q-icon name="done" size="150px" color="red" />
+        <div class="text-h3">No tasks</div>
+      </div>
     </q-list>
   </q-page>
 </template>

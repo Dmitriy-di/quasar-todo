@@ -16,7 +16,7 @@
           <q-btn flat round dense icon="group_add" />
         </q-toolbar>
         <q-toolbar inset>
-          <q-toolbar-title> <strong>Quasar</strong> Framework </q-toolbar-title>
+          <q-toolbar-title> <strong>TodoList</strong> </q-toolbar-title>
         </q-toolbar>
         <q-img class="header-image absolute-top"></q-img>
         <div class="time q-mb-lg q-mt-lg q-px-xl">{{ toToday }}</div>
@@ -41,28 +41,28 @@
         <q-list padding>
           <q-item to="/" exact clickable v-ripple>
             <q-item-section avatar>
-              <q-icon name="style" />
+              <q-icon name="style" color="white" />
             </q-item-section>
             <q-item-section> Todo </q-item-section>
           </q-item>
 
           <q-item to="/about" exact clickable v-ripple>
             <q-item-section avatar>
-              <span class="material-icons"> info </span>
+              <span class="material-icons" style="color: white"> info </span>
             </q-item-section>
             <q-item-section> About </q-item-section>
           </q-item>
 
           <q-item to="/help" exact clickable v-ripple>
             <q-item-section avatar>
-              <span class="material-icons"> help </span>
+              <span class="material-icons" style="color: white"> help </span>
             </q-item-section>
             <q-item-section> Help </q-item-section>
           </q-item>
 
           <q-item to="/contacts" exact clickable v-ripple>
             <q-item-section avatar>
-              <span class="material-icons"> call </span>
+              <span class="material-icons" style="color: white"> call </span>
             </q-item-section>
             <q-item-section> Contacts </q-item-section>
           </q-item>
